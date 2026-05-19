@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 2048 — Premium Glassmorphic Edition</title>
+    <meta name="description" content="A state-of-the-art Neon Glassmorphism 2048 game featuring a highly optimized Expectimax AI Solver.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-glows">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+        <div class="glow glow-3"></div>
+    </div>
+
+    <div class="main-wrapper">
+        <!-- HEADER -->
+        <header class="game-header">
+            <h1 class="game-title"><span class="accent">AI</span> 2048</h1>
+            <div class="header-scores">
+                <div class="score-card">
+                    <span class="score-label">Score</span>
+                    <span class="score-value" id="currentScore">0</span>
+                </div>
+                <div class="score-card best">
+                    <span class="score-label">Best</span>
+                    <span class="score-value" id="bestScore">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTAINER -->
+        <div class="game-container">
+            <!-- PLAY FIELD -->
+            <div class="board-wrapper">
+                <div class="grid-board" id="gridBoard">
+                    <!-- Background cells (4x4) -->
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+
+                    <!-- Tiles container for sliding/merging elements -->
+                    <div class="tiles-container" id="tilesContainer"></div>
+                </div>
+
+                <!-- OVERLAY MENU -->
+                <div id="overlayMenu" class="overlay active">
+                    <h2 id="overlayTitle">AI 2048</h2>
+                    <p id="overlaySubtitle">Frosted Glass Neon Edition</p>
+                    <div class="overlay-buttons">
+                        <button id="btnPlayerMode" class="menu-btn hover-glow">Player Mode</button>
+                        <button id="btnAiMode" class="menu-btn ai-btn hover-glow">Watch AI Solve</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIDEBAR CONTROL PANEL -->
+            <aside class="sidebar">
+                <!-- Mode Switcher -->
+                <div class="sidebar-section mode-section">
+                    <div class="toggle-container">
+                        <span class="toggle-label">AI Solver Mode</span>
+                        <label class="switch">
+                            <input type="checkbox" id="aiModeToggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="sidebar-section btn-section">
+                    <button id="btnPause" class="sidebar-btn secondary" disabled>Pause AI</button>
+                    <button id="btnRestart" class="sidebar-btn primary">New Game</button>
+                </div>
+
+                <!-- AI Speed (only visible or active in AI mode) -->
+                <div class="sidebar-section speed-section" id="speedSection">
+                    <div class="stat-label">AI Solve Speed</div>
+                    <div class="slider-wrapper">
+                        <input type="range" id="speedSlider" min="0" max="9" value="7">
+                        <div class="slider-ticks">
+                            <span>Slow</span>
+                            <span>Medium</span>
+                            <span>Max</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Diagnostics Panel -->
+                <div class="sidebar-section stats-panel" id="aiStatsPanel">
+                    <h3>AI Diagnostic Monitor</h3>
+                    <div class="stat-row">
+                        <span class="stat-lbl">Solver Status</span>
+                        <span class="stat-val status-indicator" id="solverStatus">Idle</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-lbl">Search Depth</span>
+                        <span class="stat-val font-mono" id="aiDepth">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-lbl">Best Move Direction</span>
+                        <span class="stat-val font-mono" id="aiBestMove">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-lbl">Board Evaluation</span>
+                        <span class="stat-val font-mono" id="aiEvaluation">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-lbl">Nodes Evaluated</span>
+                        <span class="stat-val font-mono" id="aiNodes">-</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-lbl">T-Table Cache Hits</span>
+                        <span class="stat-val font-mono" id="aiCache">-</span>
+                    </div>
+                </div>
+
+                <!-- Manual controls instructions -->
+                <div class="sidebar-section instructions">
+                    <h3>Manual Controls</h3>
+                    <div class="key-hint"><kbd>↑</kbd> <kbd>W</kbd> <span>Move Up</span></div>
+                    <div class="key-hint"><kbd>↓</kbd> <kbd>S</kbd> <span>Move Down</span></div>
+                    <div class="key-hint"><kbd>←</kbd> <kbd>A</kbd> <span>Move Left</span></div>
+                    <div class="key-hint"><kbd>→</kbd> <kbd>D</kbd> <span>Move Right</span></div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Background music / ambient nodes (optional visual polish) -->
+    <div class="ambient-footer">
+        Expectimax AI solver compiled in vanilla JS. Use standard arrow keys or Watch AI.
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
