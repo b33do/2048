@@ -1,5 +1,7 @@
 # 2048 AI Solver
 
+👉 [**Play Live Demo**](https://b33do.github.io/2048/)
+
 A web-based version of 2048 featuring a real-time Expectimax AI solver, styled with a modern dark glassmorphic interface. The original Python terminal-based game is also preserved in `2048.py`.
 
 ## Features
